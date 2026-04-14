@@ -1,0 +1,52 @@
+services:
+  mongodb-recruitment:
+    image: mongo:7
+    container_name: mongodb-recruitment
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: recruitment_db
+    volumes:
+      - recruitment_data:/data/db
+    networks:
+      - hrplatform-network
+
+  mongodb-employee:
+    image: mongo:7
+    container_name: mongodb-employee
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: employee_db
+    volumes:
+      - employee_data:/data/db
+    networks:
+      - hrplatform-network
+
+  postgres-iam:
+    image: postgres:17
+    container_name: postgres-iam
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: iam_db
+    volumes:
+      - iam_data:/var/lib/postgresql/data
+    networks:
+      - hrplatform-network
+
+volumes:
+  recruitment_data:
+  employee_data:
+  iam_data:
+
+networks:
+  hrplatform-network:
+    driver: bridge
+

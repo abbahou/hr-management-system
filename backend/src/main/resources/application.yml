@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/iam_db
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/hr-realm
+
+app:
+  jwt:
+    secret: this-is-a-very-long-dev-secret-key-change-in-prod-12345
+

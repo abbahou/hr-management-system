@@ -1,0 +1,9 @@
+rootProject.name = 'hrplatform'
+
+include ':common'
+include ':iam-service'
+include ':recruitment-service'
+include ':employee-service'
+include ':api-gateway'
+include ':eureka-server'
+
