@@ -10,6 +10,7 @@ services:
       MONGO_INITDB_DATABASE: recruitment_db
     volumes:
       - recruitment_data:/data/db
+      - ./mongo-init-recruitment.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - hrplatform-network
 
@@ -24,6 +25,7 @@ services:
       MONGO_INITDB_DATABASE: employee_db
     volumes:
       - employee_data:/data/db
+      - ./mongo-init-employee.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - hrplatform-network
 

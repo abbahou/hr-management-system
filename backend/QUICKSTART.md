@@ -77,7 +77,7 @@ You should see 4 services registered:
 
 **Test IAM Service:**
 ```bash
-curl -X POST http://localhost:8081/auth/register \
+curl -X POST http://localhost:8081/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
