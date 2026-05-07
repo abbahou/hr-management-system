@@ -18,6 +18,7 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders: "*"
+            allowCredentials: true
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin RETAIN_UNIQUE
         - DedupeResponseHeader=Access-Control-Allow-Credentials RETAIN_UNIQUE
@@ -26,6 +27,14 @@ spring:
           uri: lb://iam-service
           predicates:
             - Path=/api/auth/**
+          filters:
+            - StripPrefix=0
+
+        - id: iam-service-options
+          uri: lb://iam-service
+          predicates:
+            - Path=/api/auth/**
+            - Method=OPTIONS
           filters:
             - StripPrefix=0
 

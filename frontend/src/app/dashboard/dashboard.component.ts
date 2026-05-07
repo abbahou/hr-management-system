@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,9 +40,11 @@ export class DashboardComponent {
     { user: 'David Smith', action: 'completed security onboarding', time: 'Yesterday', initial: 'DS', bgColor: 'bg-gray-100', textColor: 'text-gray-600' }
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   logout() {
+    console.log('Logging out...');
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

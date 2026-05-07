@@ -58,7 +58,7 @@ public class AuthService {
         String normalizedEmail = normalizeEmail(request.email());
         validateCredentials(normalizedEmail, request.password());
         User user = userRepository.findByEmail(normalizedEmail)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
 
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
@@ -72,14 +72,13 @@ public class AuthService {
 
     public CurrentUserResponse getCurrentUser(String email) {
         User user = userRepository.findByEmail(normalizeEmail(email))
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
 
         return new CurrentUserResponse(
-            user.getUserId(),
-            user.getEmail(),
-            user.getRole().name(),
-            user.getLastLoginDate()
-        );
+                user.getUserId(),
+                user.getEmail(),
+                user.getRole().name(),
+                user.getLastLoginDate());
     }
 
     private void validateCredentials(String email, String password) {
@@ -93,9 +92,8 @@ public class AuthService {
 
         if (password.trim().length() < MIN_PASSWORD_LENGTH) {
             throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                "Password must be at least " + MIN_PASSWORD_LENGTH + " characters"
-            );
+                    HttpStatus.BAD_REQUEST,
+                    "Password must be at least " + MIN_PASSWORD_LENGTH + " characters");
         }
     }
 
@@ -108,27 +106,25 @@ public class AuthService {
         Instant expiresAt = issuedAt.plusSeconds(TOKEN_TTL_SECONDS);
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-            .issuer("hrplatform-iam")
-            .subject(user.getEmail())
-            .issuedAt(issuedAt)
-            .expiresAt(expiresAt)
-            .claim("email", user.getEmail())
-            .claim("role", user.getRole().name())
-            .claim("uid", user.getUserId().toString())
-            .build();
+                .issuer("hrplatform-iam")
+                .subject(user.getEmail())
+                .issuedAt(issuedAt)
+                .expiresAt(expiresAt)
+                .claim("email", user.getEmail())
+                .claim("role", user.getRole().name())
+                .claim("uid", user.getUserId().toString())
+                .build();
 
         String token = jwtEncoder
-            .encode(JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims))
-            .getTokenValue();
+                .encode(JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims))
+                .getTokenValue();
 
         return new AuthResponse(
-            token,
-            "Bearer",
-            TOKEN_TTL_SECONDS,
-            user.getUserId(),
-            user.getEmail(),
-            user.getRole().name()
-        );
+                token,
+                "Bearer",
+                TOKEN_TTL_SECONDS,
+                user.getUserId().toString(),
+                user.getEmail(),
+                user.getRole().name());
     }
 }
-

@@ -80,7 +80,7 @@ You should see 4 services registered:
 curl -X POST http://localhost:8081/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "user@example.com",
+    "email": "user2@example.com",
     "password": "password123",
     "role": "EMPLOYEE"
   }'

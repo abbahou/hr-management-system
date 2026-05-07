@@ -38,15 +38,22 @@ export class LoginComponent {
         password: this.loginForm.value.password
       };
 
+      console.log('Attempting login with credentials:', credentials);
+
       this.authService.login(credentials).subscribe({
         next: (response) => {
           this.isLoading = false;
-          console.log('Login Successful, token stored.');
+          console.log('Login Successful, response:', response);
+          console.log('Token stored:', localStorage.getItem('token'));
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
           this.isLoading = false;
-          this.loginError = 'Invalid credentials or API error. Please try again.';
+          console.error('Login Failed - Full Error:', err);
+          console.error('Error status:', err.status);
+          console.error('Error message:', err.message);
+          console.error('Error error:', err.error);
+          this.loginError = `Failed: ${err.status || 'Network'} - ${err.error?.message || 'Invalid credentials or API error'}`;
           console.error('Login Failed', err);
         }
       });

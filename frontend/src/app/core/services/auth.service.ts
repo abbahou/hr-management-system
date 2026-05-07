@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
+import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface LoginResponse {
@@ -32,12 +33,19 @@ export class AuthService {
    * Assuming payload structure: { email: string; password: string }
    */
   login(credentials: any): Observable<LoginResponse> {
+    console.log('Auth service calling login endpoint:', `${this.apiUrl}/api/auth/login`);
     return this.http.post<LoginResponse>(`${this.apiUrl}/api/auth/login`, credentials)
       .pipe(
         tap(response => {
+          console.log('Login response received:', response);
           if (response && response.accessToken) {
+            console.log('Storing token in localStorage');
             localStorage.setItem('token', response.accessToken);
           }
+        }),
+        catchError(error => {
+          console.error('Login HTTP error:', error);
+          throw error;
         })
       );
   }

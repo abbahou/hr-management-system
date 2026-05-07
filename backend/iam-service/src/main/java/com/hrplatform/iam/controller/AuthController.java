@@ -9,16 +9,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*", methods = {
+        RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS })
 public class AuthController {
 
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> handleOptions() {
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/register")
@@ -36,4 +45,3 @@ public class AuthController {
         return ResponseEntity.ok(authService.getCurrentUser(jwt.getSubject()));
     }
 }
-
