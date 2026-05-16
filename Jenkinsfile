@@ -59,16 +59,18 @@ pipeline {
         stage('🔍 SonarQube Analysis') {
             steps {
                 echo "🔍 Running SonarQube code analysis..."
-                dir('backend') {
-                    withCredentials([string(credentialsId: 'sonarcubetoken', variable: 'SONAR_TOKEN')]) {
-                        sh '''
-                            ./gradlew sonarqube \
-                              -Dsonar.projectKey=hr-managment \
-                              -Dsonar.host.url=http://139.59.150.108:9000 \
-                              -Dsonar.login=${SONAR_TOKEN} \
-                              -Dsonar.gradle.skipCompile=true
-                        '''
-                    }
+                withCredentials([string(credentialsId: 'sonarcubetoken', variable: 'SONAR_TOKEN')]) {
+                    sh '''
+                        docker run --rm \
+                          -e SONAR_HOST_URL="http://139.59.150.108:9000" \
+                          -e SONAR_TOKEN="$SONAR_TOKEN" \
+                          -v "$WORKSPACE:/usr/src" \
+                          sonarsource/sonar-scanner-cli:11 \
+                          -Dsonar.projectKey=hr-managment \
+                          -Dsonar.sources=backend/src/main \
+                          -Dsonar.java.binaries=backend/iam-service/build/classes/java/main,backend/employee-service/build/classes/java/main,backend/recruitment-service/build/classes/java/main,backend/api-gateway/build/classes/java/main,backend/eureka-server/build/classes/java/main \
+                          -Dsonar.exclusions=**/test/**,**/*Test*.java
+                    '''
                 }
             }
         }
