@@ -2,7 +2,7 @@
 FROM gradle:8.5-jdk21 AS builder
 WORKDIR /workspace
 COPY . .
-RUN ./gradlew :recruitment-service:build -x test
+RUN chmod +x gradlew && ./gradlew :recruitment-service:build -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
