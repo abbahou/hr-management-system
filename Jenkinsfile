@@ -69,7 +69,7 @@ pipeline {
                           -Dsonar.projectKey=hr-managment \
                           -Dsonar.sources=backend \
                           -Dsonar.java.source=25 \
-                          -Dsonar.java.binaries=backend/iam-service/build/classes/java/main,backend/employee-service/build/classes/java/main,backend/recruitment-service/build/classes/java/main,backend/api-gateway/build/classes/java/main,backend/eureka-server/build/classes/java/main,backend/common/build/classes/java/main \
+                          -Dsonar.java.binaries=backend/iam-service/build/classes/java/main,backend/employee-service/build/classes/java/main,backend/recruitment-service/build/classes/java/main,backend/api-gateway/build/classes/java/main,backend/eureka-server/build/classes/java/main \
                           -Dsonar.exclusions=**/test/**,**/*Test*.java,**/build/**
                     '''
                 }
