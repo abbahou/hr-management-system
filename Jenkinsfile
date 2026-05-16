@@ -49,7 +49,7 @@ pipeline {
             steps {
                 echo "🐳 Building Docker images for HR microservices..."
                 sh '''
-                    source $WORKSPACE/build.properties
+                    . $WORKSPACE/build.properties
                     BUILD_TAG="${BUILD_NUMBER}-${GIT_COMMIT_SHORT}"
                     
                     echo "Building IAM Service (Tag: ${BUILD_TAG})..."
@@ -78,7 +78,7 @@ pipeline {
             steps {
                 echo "📤 Pushing Docker images to Docker Hub..."
                 sh '''
-                    source $WORKSPACE/build.properties
+                    . $WORKSPACE/build.properties
                     BUILD_TAG="${BUILD_NUMBER}-${GIT_COMMIT_SHORT}"
                     
                     # Securely login to Docker Hub using the namespace and token
