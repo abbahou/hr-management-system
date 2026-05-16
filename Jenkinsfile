@@ -1,14 +1,15 @@
 pipeline {
     agent any
 
+    triggers {
+        // Enable GitHub webhook-triggered builds
+        githubPush()
+    }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         timeout(time: 1, unit: 'HOURS')
         timestamps()
-        // Enable webhook-triggered builds
-        pipelineTriggers([
-            githubPush()
-        ])
     }
 
     environment {
