@@ -60,7 +60,7 @@ pipeline {
             steps {
                 echo "🔍 Running SonarQube code analysis..."
                 dir('backend') {
-                    withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'sonarcubetoken', variable: 'SONAR_TOKEN')]) {
                         sh '''
                             ./gradlew sonarqube \
                               -Dsonar.projectKey=hr-managment \
