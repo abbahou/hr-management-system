@@ -14,11 +14,8 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'docker.io'
-        // Docker Hub account username (used for login)
         DOCKER_USERNAME = 'dashnet13'
-        // Docker Hub namespace/organisation for image tags
-        DOCKER_NAMESPACE = 'hr_managemt'
-        // The credential ID for your Docker Hub access token
+        DOCKER_NAMESPACE = 'dashnet13'
         DOCKER_PASSWORD = credentials('dockerhubtoken')
         GITHUB_REPO = 'https://github.com/abbahou/hr-management-system.git'
     }
