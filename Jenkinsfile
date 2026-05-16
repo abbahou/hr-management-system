@@ -56,9 +56,26 @@ pipeline {
             }
         }
 
+        stage('🔍 SonarQube Analysis') {
+            steps {
+                echo "🔍 Running SonarQube code analysis..."
+                dir('backend') {
+                    withCredentials([string(credentialsId: 'sonartoken', variable: 'SONAR_TOKEN')]) {
+                        sh '''
+                            ./gradlew sonarqube \
+                              -Dsonar.projectKey=hr-managment \
+                              -Dsonar.host.url=http://139.59.150.108:9000 \
+                              -Dsonar.login=${SONAR_TOKEN}
+                        '''
+                    }
+                }
+            }
+        }
+
         stage('🐳 Docker - Build Images') {
             steps {
                 echo "🐳 Building Docker images for HR microservices..."
+
                 sh '''
                     . $WORKSPACE/build.properties
                     BUILD_TAG="${BUILD_NUMBER}-${GIT_COMMIT_SHORT}"
