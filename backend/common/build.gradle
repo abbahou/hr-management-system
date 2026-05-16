@@ -1,5 +1,9 @@
+// 'common' is a shared library, not a Spring Boot application.
+// Disable bootJar (requires a main class) and use the standard jar instead.
+bootJar.enabled = false
+jar.enabled = true
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-
