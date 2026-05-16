@@ -94,7 +94,7 @@ pipeline {
                     BUILD_TAG="${BUILD_NUMBER}-${GIT_COMMIT_SHORT}"
                     
                     # Securely login to Docker Hub using the account username and token
-                    echo $DOCKER_PASSWORD | docker login -u ${DOCKER_USERNAME} --password-stdin
+                    echo $DOCKER_PASSWORD_PSW | docker login -u $DOCKER_PASSWORD_USR --password-stdin
                     
                     echo "Pushing images..."
                     docker push ${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/hr-iam-service:${BUILD_TAG}
