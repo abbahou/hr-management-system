@@ -1,6 +1,6 @@
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY build/libs/*.jar app.jar
+COPY iam-service/build/libs/*.jar app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]
