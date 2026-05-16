@@ -14,10 +14,12 @@ pipeline {
 
     environment {
         DOCKER_REGISTRY = 'docker.io'
-        // Your specific Docker Hub username/registry name
-        DOCKER_NAMESPACE = 'hr_managemt' 
+        // Docker Hub account username (used for login)
+        DOCKER_USERNAME = 'dashnet13'
+        // Docker Hub namespace/organisation for image tags
+        DOCKER_NAMESPACE = 'hr_managemt'
         // The credential ID for your Docker Hub access token
-        DOCKER_PASSWORD = credentials('dockerhubtoken') 
+        DOCKER_PASSWORD = credentials('dockerhubtoken')
         GITHUB_REPO = 'https://github.com/abbahou/hr-management-system.git'
     }
 
@@ -94,8 +96,8 @@ pipeline {
                     . $WORKSPACE/build.properties
                     BUILD_TAG="${BUILD_NUMBER}-${GIT_COMMIT_SHORT}"
                     
-                    # Securely login to Docker Hub using the namespace and token
-                    echo $DOCKER_PASSWORD | docker login -u ${DOCKER_NAMESPACE} --password-stdin
+                    # Securely login to Docker Hub using the account username and token
+                    echo $DOCKER_PASSWORD | docker login -u ${DOCKER_USERNAME} --password-stdin
                     
                     echo "Pushing images..."
                     docker push ${DOCKER_REGISTRY}/${DOCKER_NAMESPACE}/hr-iam-service:${BUILD_TAG}
