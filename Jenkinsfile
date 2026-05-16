@@ -65,7 +65,8 @@ pipeline {
                             ./gradlew sonarqube \
                               -Dsonar.projectKey=hr-managment \
                               -Dsonar.host.url=http://139.59.150.108:9000 \
-                              -Dsonar.login=${SONAR_TOKEN}
+                              -Dsonar.login=${SONAR_TOKEN} \
+                              -Dsonar.gradle.skipCompile=true
                         '''
                     }
                 }
