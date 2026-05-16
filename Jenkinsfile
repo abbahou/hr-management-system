@@ -45,6 +45,18 @@ pipeline {
             }
         }
 
+        stage('🏗️ Build Backend Services') {
+            steps {
+                echo "🏗️ Building backend services with Gradle..."
+                dir('backend') {
+                    sh '''
+                        chmod +x gradlew
+                        ./gradlew clean build -x test --parallel
+                    '''
+                }
+            }
+        }
+
         stage('🐳 Docker - Build Images') {
             steps {
                 echo "🐳 Building Docker images for HR microservices..."
