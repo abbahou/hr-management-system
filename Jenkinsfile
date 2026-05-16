@@ -34,7 +34,7 @@ pipeline {
                     ],
                     userRemoteConfigs: [[
                         credentialsId: 'githubtoken', 
-                        url: '${GITHUB_REPO}'
+                        url: "${GITHUB_REPO}"
                     ]]
                 ])
                 sh '''
