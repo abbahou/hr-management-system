@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: hr-platform-jenkins
+    ports:
+      - "8888:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    environment:
+      - JENKINS_OPTS=--argumentsRealm.passwd.admin=admin --argumentsRealm.roles.admin=admin
+      - JAVA_OPTS=-Xmx2048m -Xms512m
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    networks:
+      - jenkins-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  docker-dind:
+    image: docker:dind
+    container_name: hr-platform-docker-dind
+    privileged: true
+    volumes:
+      - docker_cache:/var/lib/docker
+    networks:
+      - jenkins-network
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
+    driver: local
+  docker_cache:
+    driver: local
+
+networks:
+  jenkins-network:
+    driver: bridge
