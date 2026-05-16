@@ -67,10 +67,11 @@ pipeline {
                           -v "$WORKSPACE:/usr/src" \
                           sonarsource/sonar-scanner-cli:11 \
                           -Dsonar.projectKey=hr-managment \
-                          -Dsonar.sources=backend \
+                          -Dsonar.sources=backend/iam-service/src/main/java,backend/employee-service/src/main/java,backend/recruitment-service/src/main/java,backend/api-gateway/src/main/java,backend/eureka-server/src/main/java \
+                          -Dsonar.inclusions=**/*.java \
+                          -Dsonar.exclusions=**/*.js,**/*.ts,**/*.yml,**/*.yaml,**/*.properties,**/*.sql,**/Dockerfile* \
                           -Dsonar.java.source=25 \
-                          -Dsonar.java.binaries=backend/iam-service/build/classes/java/main,backend/employee-service/build/classes/java/main,backend/recruitment-service/build/classes/java/main,backend/api-gateway/build/classes/java/main,backend/eureka-server/build/classes/java/main \
-                          -Dsonar.exclusions=**/test/**,**/*Test*.java,**/build/**
+                          -Dsonar.java.binaries=backend/iam-service/build/classes/java/main,backend/employee-service/build/classes/java/main,backend/recruitment-service/build/classes/java/main,backend/api-gateway/build/classes/java/main,backend/eureka-server/build/classes/java/main
                     '''
                 }
             }
