@@ -83,9 +83,10 @@ pipeline {
         }
 
         stage('📤 Docker - Push Images') {
-            // This ensures pushing only happens on main (redundant now, but good for safety)
+            // 'branch' directive only works in Multibranch Pipelines.
+            // For regular Pipeline jobs, check GIT_BRANCH env variable instead.
             when {
-                branch 'main'
+                expression { env.GIT_BRANCH == 'origin/main' || env.GIT_BRANCH == 'main' }
             }
             steps {
                 echo "📤 Pushing Docker images to Docker Hub..."
